@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!--  <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#B0F2B6</color>
+    <color name="colorAccent">#444444</color>
+    <color name="colorBackground">#7C80BF</color>
+    <color name="colorGoodAnswer">#FFA500</color>
+    <color name="grey_transparent">#97696969</color>  -->
+
+
+
+
+        <!-- APP BASE -->
+        <color name="colorPrimary">#333333</color>
+        <color name="colorAccent">#1F2F77</color>
+        <color name="colorPrimaryDark">#9BDFE7</color>
+
+        <!-- BACKGROUND -->
+ <!--       <color name="background_light">#7C80BF</color>  -->
+    <color name="background_light">#888CC4</color>
+
+        <!-- TEXTVIEW -->
+        <color name="text_color">#8a000000</color>
+
+        <!-- Utils -->
+      <color name="colorGoodAnswer">#FFA500</color>
+      <color name="grey_transparent">#97696969</color>
+
+
+</resources>

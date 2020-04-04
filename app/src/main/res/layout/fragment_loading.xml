@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/layoutLoadQuizz"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@drawable/gradius">
+
+    <LinearLayout android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <com.systemathic.flagsquizz.ui.CustomTextView
+                style="@style/CustomTheme.SubTitle"
+                android:textSize="@dimen/pourcent_load_size"
+                android:text="0%"
+                android:id="@+id/tvPourcentLoading"/>
+
+        <include android:id="@+id/progress_loading_hor"
+                layout="@layout/progress_bar_horizontal"/>
+
+    </LinearLayout>
+
+    <RelativeLayout android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+        <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+            <TextView
+                    style="@style/CustomTheme.BaseText"
+                    android:textSize="@dimen/text_load_size"
+                    android:text="@string/loading_text"/>
+
+            <ImageView style="@style/CustomTheme.ImageLogo"
+                    android:contentDescription="@string/descr_wait"
+                    android:id="@+id/earthQuizzLoad"
+                    android:src="@drawable/eart"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

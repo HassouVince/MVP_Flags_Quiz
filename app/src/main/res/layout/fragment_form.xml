@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.systemathic.flagsquizz.ui.CustomTextView
+                style="@style/CustomTheme.SubTitle"
+                android:text="@string/title_form"/>
+
+        <View style="@style/CustomTheme.HorizontalView"
+                android:layout_marginTop="@dimen/margin_elements"/>
+
+        <ImageView style="@style/CustomTheme.ImageLogo"
+                android:id="@+id/imageForm"
+                android:contentDescription="@string/descr_user_img"
+                android:src="@drawable/user_no_image"/>
+
+        <Button
+                style="@style/CustomTheme.CustomButton"
+                android:text="@string/add_image"
+                android:textAllCaps="false"
+                android:id="@+id/buttonForm"
+                android:layout_marginTop="@dimen/margin_elements"
+                android:layout_marginBottom="@dimen/margin_elements2" />
+
+        <TextView
+                style="@style/CustomTheme.MediumText"
+                android:layout_marginTop="@dimen/margin_elements2"
+                android:text="@string/entry_userName"
+                android:id="@+id/tvNameForm"/>
+
+
+        <EditText android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/userName"
+                android:id="@+id/edTextNameForm"
+                android:maxLength="25"
+                android:inputType="textCapSentences"/>
+
+        <TextView
+                style="@style/CustomTheme.MediumText"
+                android:layout_marginTop="@dimen/margin_elements2"
+                android:text="@string/how_old_are_u"
+                android:id="@+id/tvAgeForm"/>
+
+
+        <EditText android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/age"
+                android:id="@+id/edTextAgeForm"
+                android:maxLength="2"
+                android:inputType="number"/>
+
+</LinearLayout>

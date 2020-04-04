@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_elements">16dp</dimen>
+    <dimen name="margin_elements2">21dp</dimen>
+    <dimen name="small_text_size">20sp</dimen>
+    <dimen name="medium_text_size">23sp</dimen>
+    <dimen name="small_image_size">51dp</dimen>
+
+    <dimen name="title_size">55sp</dimen>
+    <dimen name="sub_title_size">31sp</dimen>
+    <dimen name="params_title_size">33sp</dimen>
+    <dimen name="logo_size">101dp</dimen>
+    <dimen name="btn_main_padding">21dp</dimen>
+    <dimen name="btn_main_margin_bottom">21dp</dimen>
+    <dimen name="btn_main_margin">21dp</dimen>
+    <dimen name="progress_size">151dp</dimen>
+    <dimen name="level_text_size">22sp</dimen>
+    <dimen name="image_quizz_size">166dp</dimen>
+    <dimen name="image_user_quizz_size">50dp</dimen>
+    <dimen name="question_quizz_size">28sp</dimen>
+    <dimen name="margin_top_chrono">9dp</dimen>
+    <dimen name="pourcent_load_size">41sp</dimen>
+    <dimen name="text_load_size">46sp</dimen>
+    <dimen name="margin_top_wait">56dp</dimen>
+</resources>

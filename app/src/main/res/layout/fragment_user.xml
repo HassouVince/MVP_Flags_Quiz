@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/layoutScoreQuizz">
+
+        <ImageView style="@style/CustomTheme.SmallImage"
+                android:id="@+id/imageUser"
+                android:contentDescription="@string/descr_user_img"
+                android:layout_margin="3dp"
+                android:src="@drawable/user_no_image"/>
+
+        <TextView android:id="@+id/tvUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/zero_points"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

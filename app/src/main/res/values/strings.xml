@@ -1,0 +1,87 @@
+<!DOCTYPE resources [
+        <!ENTITY appnamekey "Kotlin Flag\'s Quiz">
+        ]>
+
+<resources>
+    <string name="app_name">Kotlin Flag\'s Quiz</string>
+
+    <string name="bottom_nav_1">Contact</string>
+    <string name="bottom_nav_2">Preferences</string>
+    <string name="bottom_nav_3">Quitter</string>
+
+    <string name="text_requiered">Ce champ doit etre renseigné.</string>
+    <string name="min_char_edit_text">Veuillez renseigner au moins deux caracteres</string>
+    <string name="invalid_entry">Saisie invalide</string>
+    <string name="userName">Pseudo</string>
+    <string name="quiz">Quiz</string>
+    <string name="age">Age</string>
+    <string name="years">ans</string>
+    <string name="score">Score</string>
+    <string name="points">points</string>
+    <string name="nbr_quizz_played">Nombre de quizzes joués</string>
+    <string name="default_hint">Ecrivez ici</string>
+    <string name="no_entrie">Vous n\'avez rien saisi</string>
+    <string name="change_made">Modification effectuée</string>
+    <string name="cancel">Annuler</string>
+    <string name="continue_">Continuer</string>
+    <string name="quit">Quitter</string>
+    <string name="quit_question">Voulez-vous quitter &appnamekey; ?</string>
+    <string name="back_to_home">Retourner a l\'accueil ?</string>
+    <string name="error">Une erreur s\'est produite..veuillez reessayer</string>
+    <string name="finish_">Terminé</string>
+    <string name="return_">Retour</string>
+    <string name="no_connection_msg">Vous devez etre connecté a Internet pour continuer !</string>
+
+    <string name="descr_user_img">Image utilisateur</string>
+    <string name="descr_validate">Valider</string>
+    <string name="descr_back">Retour</string>
+    <string name="descr_wait">Chargement</string>
+    <string name="descr_volume">Volume</string>
+
+    <!-- Main ////////////////////////////////////////////////////////// -->
+    <string name="btn_play">Jouer</string>
+    <string name="btn_score">Score</string>
+    <string name="btn_settings">Parametres / Contact</string>
+
+    <string name="total_pts">Total des points</string>
+    <string name="no_score_available">Aucun score disponible pour le moment.</string>
+    <string name="no_more_quiz">Tous les quizzs ont ete joues ! Voulez vous recommencer a zero ?</string>
+    <!-- PARAMS ///////////////////////////////////////////////////////// -->
+    <string name="cell_params_name">Modifier pseudo</string>
+    <string name="cell_params_age">Modifier age</string>
+    <string name="cell_params_update_img">Modifier / Ajouter image</string>
+    <string name="cell_params_delete_img">Supprimer image</string>
+    <string name="cell_params_contact">Contacter</string>
+    <string name="cell_params_share">Partager</string>
+    <string name="cell_params_reset">Reininitialiser &appnamekey;</string>
+    <string name="cell_params_quit">Quitter &appnamekey;</string>
+    <string name="cell_params_home">Revenir a l\'accueil</string>
+
+    <string name="parameters">Parametres</string>
+    <string name="reset_text">Voulez vous effacer toutes vos données? Vos scores, vos quizzes joués et toutes les informations vous concernant seront perdues. Continuer ?</string>
+    <string name="reset">Reset</string>
+
+    <!-- FORM ///////////////////////////////////////////////////////// -->
+    <string name="title_form">Bienvenue sur Countrie\'s Quiz !</string>
+    <string name="add_image">Ajoutez une image (facultatif)</string>
+    <string name="entry_userName">Entrez un pseudo :</string>
+    <string name="how_old_are_u">Quel age avez vous ?</string>
+
+    <!-- QUIZZ ///////////////////////////////////////////////////////// -->
+    <string name="niveau">Niveau </string>
+    <string name="quizz_question">Quel pays represente ce drapeau ?</string>
+    <string name="answer">Reponse</string>
+    <string name="loading_text">Preparation du Quizz, veuillez patienter...</string>
+    <string name="zero_points">0 pts</string>
+    <string name="img_load">Chargement de l\'image en cours..</string>
+    <string name="question">Quel pays represente ce drapeau ?</string>
+    <string name="good_answer">Bonne reponse !</string>
+    <string name="good_answer_was">La bonne reponse etait</string>
+    <string name="time_elapsed">Temps ecoulé !</string>
+    <string name="wrong">Faux !</string>
+    <string name="quizz_finish">Quiz termine !</string>
+    <string name="game_finish">Partie terminee !</string>
+    <string name="restart_quizz">Rejouer ce quiz</string>
+    
+</resources>
+

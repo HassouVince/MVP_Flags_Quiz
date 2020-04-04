@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activity.params.ParamsActivity"
+        android:id="@+id/rootParams">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+
+            <FrameLayout android:id="@+id/layoutFragParamsPresentation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <View style="@style/CustomTheme.HorizontalView"
+                    android:layout_marginTop="@dimen/margin_elements" />
+
+            <FrameLayout android:id="@+id/layoutFragParamsRV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+    <include android:id="@+id/progressParams"
+            layout="@layout/progress_bar"/>
+
+    <FrameLayout
+            android:id="@+id/layoutFragParamsEdit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/layoutFragParamsDial"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+    </FrameLayout>
+
+</RelativeLayout>

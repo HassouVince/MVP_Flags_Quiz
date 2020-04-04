@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:id="@+id/layoutCell">
+
+        <TextView
+                android:layout_marginTop="@dimen/margin_elements2"
+                android:layout_marginBottom="@dimen/margin_elements2"
+                android:textSize="@dimen/small_text_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvCell"/>
+
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="end">
+
+            <ImageView android:layout_width="@dimen/small_image_size"
+                       android:layout_height="@dimen/small_image_size"
+                       android:src="@drawable/share"
+                       android:layout_marginTop="@dimen/margin_elements"
+                       android:layout_marginBottom="@dimen/margin_elements"
+                       android:layout_marginEnd="@dimen/margin_elements"
+            android:id="@+id/imageCell"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <View android:layout_width="match_parent"
+          android:layout_height="3dp"
+          android:layout_marginTop="10dp"
+          android:background="#444444"/>
+
+</LinearLayout>
