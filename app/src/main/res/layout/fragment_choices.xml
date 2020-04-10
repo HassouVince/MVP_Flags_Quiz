@@ -5,7 +5,7 @@
         android:gravity="center"
         android:layout_marginBottom="@dimen/margin_elements"
         android:orientation="horizontal"
-        android:id="@+id/layoutValidForm">
+        android:id="@+id/rootFragmentChoices">
 
         <ImageView style="@style/CustomTheme.SmallImage"
                 android:layout_marginEnd="@dimen/margin_elements2"

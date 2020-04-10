@@ -3,7 +3,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/grey_transparent"
-        android:id="@+id/layoutFragDial"
+        android:id="@+id/rootFragmentEditText"
         android:visibility="visible"
         android:gravity="center">
 

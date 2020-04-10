@@ -20,8 +20,7 @@
             android:orientation="vertical"
             android:gravity="center">
 
-            <FrameLayout
-                    android:id="@+id/layoutFragMainButtons"
+            <FrameLayout android:id="@+id/layoutFragMainButtons"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
             </FrameLayout>
@@ -31,8 +30,7 @@
     </LinearLayout>
 
 
-    <FrameLayout
-            android:id="@+id/layoutFragDialMain"
+    <FrameLayout android:id="@+id/layoutFragDialMain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone">

@@ -230,7 +230,6 @@ class QuizzActivity : AppCompatActivity(), QuizzContract.View,FlagsContract.View
 
     override fun onQuit(){
         showProgress()
-       // presentationFragment.setImage(R.drawable.wait)
         setViewsVisibility(View.GONE,layoutFragQuizPresentation,layoutFragQuizButtons,
             layoutFragQuizUser,layoutFragQuizVolume,progress_chrono_quizz)
         startActivity(getPreparedIntent(this, MainActivity(), presenter.getUser()))
@@ -262,9 +261,9 @@ class QuizzActivity : AppCompatActivity(), QuizzContract.View,FlagsContract.View
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         presenter.save()
         presenter.onViewDestroyed()
+        super.onDestroy()
     }
 
     ////// ASYNC CALLBACK

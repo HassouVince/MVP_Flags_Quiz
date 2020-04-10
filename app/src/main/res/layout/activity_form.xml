@@ -6,27 +6,18 @@
         android:layout_height="match_parent"
         tools:context=".ui.activity.form.FormActivity">
 
-    <FrameLayout
-            android:id="@+id/layoutFragForm"
+    <FrameLayout android:id="@+id/layoutFragForm"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
     </FrameLayout>
 
-    <RelativeLayout
+    <FrameLayout android:id="@+id/layoutFragChoicesForm"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="bottom">
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+    </FrameLayout>
 
-        <FrameLayout
-                android:id="@+id/layoutFragChoicesForm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-        </FrameLayout>
-
-    </RelativeLayout>
-
-    <FrameLayout
-            android:id="@+id/layoutFragDialForm"
+    <FrameLayout android:id="@+id/layoutFragDialForm"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
     </FrameLayout>

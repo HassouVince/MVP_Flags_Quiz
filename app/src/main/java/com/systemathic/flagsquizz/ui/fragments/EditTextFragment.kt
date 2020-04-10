@@ -10,6 +10,8 @@ import kotlinx.android.synthetic.main.fragment_edit_text.*
 
 class EditTextFragment : ClickableFragment(){
 
+    companion object{const val ROOT_VIEW_ID = R.id.rootFragmentEditText}
+
     @Suppress("UNCHECKED_CAST")
     override fun <T : BaseFragment> newInstance(): T = EditTextFragment() as T
 

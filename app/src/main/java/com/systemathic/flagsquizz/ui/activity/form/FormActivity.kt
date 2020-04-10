@@ -22,16 +22,11 @@ import org.koin.core.parameter.parametersOf
 
 class FormActivity : AppCompatActivity(), FormContract.View, BaseFragment.OnViewClickListener {
 
-    override fun getPresenter(): BasePresenter = presenter
-    override fun setPresenter(basePresenter: BasePresenter) {
-        presenter = basePresenter as FormContract.Presenter
-    }
 
     private var presenter : FormContract.Presenter = get{ parametersOf(this) }
 
-   private val formFragment : FormFragment by inject()
+    private val formFragment : FormFragment by inject()
     private val choiceFragment : ChoicesFragment by inject()
-
 
     private var pathImage = ""
 
@@ -126,6 +121,12 @@ class FormActivity : AppCompatActivity(), FormContract.View, BaseFragment.OnView
 
     override fun onBackPressed() {
         presenter.onQuitPressed()
+    }
+
+
+    override fun getPresenter(): BasePresenter = presenter
+    override fun setPresenter(basePresenter: BasePresenter) {
+        presenter = basePresenter as FormContract.Presenter
     }
 
     override fun showProgress() {

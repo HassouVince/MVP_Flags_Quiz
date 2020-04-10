@@ -11,6 +11,8 @@ import java.lang.Exception
 
 class DialFragment : ClickableFragment(){
 
+
+
     @Suppress("UNCHECKED_CAST")
     override fun <T : BaseFragment> newInstance(): T = DialFragment() as T
 
@@ -23,6 +25,7 @@ class DialFragment : ClickableFragment(){
     override fun setViews(view: View) {}
 
     companion object{
+        const val ROOT_VIEW_ID = R.id.rootFragmentDial
         const val TAG_BTN_DIAL_1 = "btn_dial_1"
         const val TAG_BTN_DIAL_2 = "btn_dial_2"
         const val TAG_BTN_DIAL_3 = "btn_dial_3"

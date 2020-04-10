@@ -30,14 +30,8 @@ import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
-
 class ParamsActivity : AppCompatActivity(), ParamsContract.View, AdapterParams.Callback,
     BaseFragment.OnViewClickListener, BaseFragment.CallbackOnFragmentCreated{
-
-    override fun getPresenter(): BasePresenter = presenter
-    override fun setPresenter(basePresenter: BasePresenter) {
-        presenter = basePresenter as ParamsContract.Presenter
-    }
 
     private var presenter : ParamsContract.Presenter = get{ parametersOf(this) }
 
@@ -60,9 +54,9 @@ class ParamsActivity : AppCompatActivity(), ParamsContract.View, AdapterParams.C
 
     override fun configureFragments() {
         startSupportFragmentManager(this,presentationFragment as BaseFragment,R.id.layoutFragParamsPresentation)
-        startSupportFragmentManager(this,editTextFragment as BaseFragment,R.id.layoutFragParamsEdit)
+        startSupportFragmentManager(this,editTextFragment as BaseFragment,R.id.layoutFragWindowsParams)
         startSupportFragmentManager(this,paramsRvFragment as BaseFragment,R.id.layoutFragParamsRV)
-        startSupportFragmentManager(this,dialFragment as BaseFragment,R.id.layoutFragParamsDial)
+        startSupportFragmentManager(this,dialFragment as BaseFragment,R.id.layoutFragWindowsParams)
     }
 
     override fun initView() {
@@ -79,6 +73,11 @@ class ParamsActivity : AppCompatActivity(), ParamsContract.View, AdapterParams.C
         displayUserInfos()
     }
 
+    override fun getPresenter(): BasePresenter = presenter
+    override fun setPresenter(basePresenter: BasePresenter) {
+        presenter = basePresenter as ParamsContract.Presenter
+    }
+
     override fun showProgress() {
         enableOrDisableView(false,rootParams)
         progressParams.visibility = View.VISIBLE
@@ -87,8 +86,6 @@ class ParamsActivity : AppCompatActivity(), ParamsContract.View, AdapterParams.C
         enableOrDisableView(true,rootParams)
         progressParams.visibility = View.GONE
     }
-    private fun setEditTextVisibility(visibility: Int){layoutFragParamsEdit.visibility = visibility}
-    private fun setDialVisibility(visibility: Int){layoutFragParamsDial.visibility = visibility}
 
     override fun onItemClickListener(paramName: String) {
         when(paramName){
@@ -109,9 +106,9 @@ class ParamsActivity : AppCompatActivity(), ParamsContract.View, AdapterParams.C
 
     override fun onViewClick(v: View?) {
         when(v!!){
-            imgChoicesReturn -> setEditTextVisibility(View.GONE)
+            imgChoicesReturn -> setWindowsVisibility(View.GONE,EditTextFragment.ROOT_VIEW_ID)
             imgChoicesValid -> presenter.onValidButtonPressed(currentBasicEditChoice,editTextFragment.getEditTextInput())
-            btnDial1 ->  setDialVisibility(View.GONE)
+            btnDial1 -> setWindowsVisibility(View.GONE,DialFragment.ROOT_VIEW_ID)
             btnDial2 -> presenter.onDialButtonPressed(currentDialChoice)
         }
     }
@@ -129,7 +126,7 @@ class ParamsActivity : AppCompatActivity(), ParamsContract.View, AdapterParams.C
      */
 
     override fun displayEditText(visibility : Int, arg: String){
-        setEditTextVisibility(visibility)
+        setWindowsVisibility(visibility,EditTextFragment.ROOT_VIEW_ID)
         editTextFragment.setEditText(visibility = visibility, txt = "")
         editTextFragment.setBtnsLayoutVisibility(visibility)
         currentBasicEditChoice = arg
@@ -161,7 +158,7 @@ class ParamsActivity : AppCompatActivity(), ParamsContract.View, AdapterParams.C
 
     private fun showDial(dialChoice : String, title : String? = null, msg : String,
                          resImage : Int? = null, txtB1 : String? = null, txtB2 : String? = null){
-        setDialVisibility(View.VISIBLE)
+        setWindowsVisibility(View.VISIBLE,DialFragment.ROOT_VIEW_ID)
         dialFragment.display(title,msg,resImage,txtNegative = txtB1!!, txtPositive = txtB2!!)
         currentDialChoice = dialChoice
     }
@@ -177,15 +174,13 @@ class ParamsActivity : AppCompatActivity(), ParamsContract.View, AdapterParams.C
     override fun showHomeMessage() = showDial(ParamsKeys.DIAL_KEY_HOME.key,null,getString(R.string.back_to_home)
         ,android.R.drawable.stat_sys_warning,getString(R.string.cancel),getString(android.R.string.ok))
 
-    override fun onReset() = goToHome()
+    override fun onReset() = backToHome()
     override fun onQuit() = finish()
-    override fun onBackToHome(){
-        setViewsVisibility(View.GONE,layoutFragParamsRV,layoutFragParamsEdit,layoutFragParamsDial)
-        showProgress()
-        goToHome()
-    }
+    override fun onBackToHome() = backToHome()
 
-    private fun goToHome(){
+    private fun backToHome(){
+        setViewsVisibility(View.GONE,layoutFragParamsRV,layoutFragWindowsParams)
+        showProgress()
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
@@ -205,6 +200,19 @@ class ParamsActivity : AppCompatActivity(), ParamsContract.View, AdapterParams.C
         startActivityForResult(imageIntent, REQUEST_GALLERY)
     }
 
+    private fun isWindowVisible(idRootLayout : Int) =
+        layoutFragWindowsParams.findViewById<View>(idRootLayout).visibility == View.VISIBLE
+                && layoutFragWindowsParams.visibility == View.VISIBLE
+
+    private fun setWindowsVisibility(visibility: Int, idRootLayout : Int){
+        val windowFragmentsIds = listOf(DialFragment.ROOT_VIEW_ID,EditTextFragment.ROOT_VIEW_ID)
+        for(id in windowFragmentsIds) {
+            layoutFragWindowsParams.findViewById<View>(id).visibility =
+                if (id == idRootLayout) visibility else View.GONE
+        }
+        layoutFragWindowsParams.visibility = visibility
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK){
@@ -215,7 +223,6 @@ class ParamsActivity : AppCompatActivity(), ParamsContract.View, AdapterParams.C
             }
         }
     }
-
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -229,15 +236,17 @@ class ParamsActivity : AppCompatActivity(), ParamsContract.View, AdapterParams.C
         }
     }
 
-    override fun onBackPressed() = when {
-            layoutFragParamsDial.visibility == View.VISIBLE -> setDialVisibility(View.GONE)
-            layoutFragParamsEdit.visibility == View.VISIBLE -> setEditTextVisibility(View.GONE)
+    override fun onBackPressed() {
+        when {
+            isWindowVisible(DialFragment.ROOT_VIEW_ID) -> setWindowsVisibility(View.GONE, DialFragment.ROOT_VIEW_ID)
+            isWindowVisible(EditTextFragment.ROOT_VIEW_ID) -> setWindowsVisibility(View.GONE, EditTextFragment.ROOT_VIEW_ID)
             else -> presenter.onBackToHomePressed()
         }
+    }
 
     override fun onDestroy() {
-        super.onDestroy()
         presenter.save()
         presenter.onViewDestroyed()
+        super.onDestroy()
     }
 }

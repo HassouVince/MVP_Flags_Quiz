@@ -28,15 +28,9 @@
     <include android:id="@+id/progressParams"
             layout="@layout/progress_bar"/>
 
-    <FrameLayout
-            android:id="@+id/layoutFragParamsEdit"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-    </FrameLayout>
 
     <FrameLayout
-            android:id="@+id/layoutFragParamsDial"
+            android:id="@+id/layoutFragWindowsParams"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone">

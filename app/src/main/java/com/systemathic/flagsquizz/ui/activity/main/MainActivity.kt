@@ -53,6 +53,10 @@ class MainActivity : AppCompatActivity(), MainContract.View, BaseFragment.OnView
         buttonsFragment.setButtonVisibility(button3,View.GONE)
         buttonsFragment.setButtonVisibility(button4,View.GONE)
         buttonsFragment.setButtonsText(getString(R.string.btn_play),getString(R.string.btn_score))
+        animateViews()
+    }
+
+    private fun animateViews(){
         alphaViewAnimation(button1,200,1500)
         alphaViewAnimation(button2,950,1500)
     }
@@ -107,12 +111,11 @@ class MainActivity : AppCompatActivity(), MainContract.View, BaseFragment.OnView
     override fun contact() = contact(this)
     override fun quit() = finish()
     override fun goToParams(user: User)  = goToNextActivity(ParamsActivity(),user)
+    override fun goToQuizz(user : User) = goToNextActivity(QuizzActivity(),user)
     override fun goToForm(requestCode: Int) {
         enableOrDisableView(false,rootMain)
         startActivityForResult(Intent(this, FormActivity::class.java),requestCode)
     }
-    override fun goToQuizz(user : User) = goToNextActivity(QuizzActivity(),user)
-
     private fun goToNextActivity(appCompatActivity: AppCompatActivity, currentUser : User){
         showProgress()
         goToActivity(this, appCompatActivity,currentUser)
@@ -139,13 +142,15 @@ class MainActivity : AppCompatActivity(), MainContract.View, BaseFragment.OnView
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         presenter.save()
         presenter.onViewDestroyed()
+        super.onDestroy()
     }
 
-    override fun onBackPressed() {
-        presenter.onQuitButtonPressed()
-    }
+    override fun onBackPressed() = if(layoutFragDialMain.visibility == View.VISIBLE)
+            layoutFragDialMain.visibility = View.GONE
+        else
+            presenter.onQuitButtonPressed()
+
 }
 
