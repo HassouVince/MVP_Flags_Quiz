@@ -4,11 +4,10 @@ import android.text.InputFilter
 import android.view.View
 import com.systemathic.flagsquizz.R
 import com.systemathic.flagsquizz.base.BaseFragment
-import com.systemathic.flagsquizz.base.ClickableFragment
 import kotlinx.android.synthetic.main.fragment_edit_text.*
 
 
-class EditTextFragment : ClickableFragment(){
+class EditTextFragment : BaseFragment(){
 
     companion object{const val ROOT_VIEW_ID = R.id.rootFragmentEditText}
 

@@ -8,7 +8,7 @@ import com.systemathic.flagsquizz.model.User
 interface MainContract {
 
     interface View : BaseView{
-        fun displayScore(txt : String)
+        fun displayScore()
         fun goToParams(user : User)
         fun goToForm(requestCode: Int)
         fun goToQuizz(user : User)
@@ -19,7 +19,7 @@ interface MainContract {
     interface Presenter : BasePresenter {
         fun onUserCreated(data : Intent, requestCode : Int)
         fun onQuizzButtonPressed()
-        fun onScoreButtonPressed(strings : List<String>)
+        fun onScoreButtonPressed()
         fun onParamsButtonPressed()
         fun onQuitButtonPressed()
         fun onContactButtonPressed()

@@ -12,21 +12,21 @@ interface QuizzContract {
         fun startQuiz(questionsPack: QuestionsPack)
         fun setVolumeImage(pVolumeOff: Boolean)
         fun displayUserScore()
-        fun onAnswerChecked(numAnswer: Int, msg : String, soundRes : Int)
+        fun onAnswerChecked(goodAnswer: String, answerType: QuizzPresenter.AnswersType, soundRes : Int)
         fun displayQuestion(question : Question)
         fun onQuizFinished(points: Int, isAllPlayed : Boolean, soundRes : Int, imgRes : Int)
         fun onNextQuiz()
         fun onRestartQuiz()
         fun onQuit()
         fun displayQuitMsg()
-        fun provideGoodAnswerMessage() : String
-        fun provideWrongAnswerMessage() : String
-        fun provideTimeElapsedMessage() : String
-        fun provideComplementMessage(goodAnswer : String) : String
+        fun onPreExecute()
+        fun onPostExecute(output : QuestionsPack)
+        fun onProgressUpdate(txt : String, value: Int?)
+        fun onRequestFail(error : String)
     }
+
     interface Presenter : BasePresenter {
         fun loadQuiz()
-        fun onQuizLoaded(pack : QuestionsPack)
         fun onVolumeButtonPressed()
         fun onDialButtonPressed(btnTag: String, dialType : String?)
         fun onAnswerSelected(numAnswer : Int)

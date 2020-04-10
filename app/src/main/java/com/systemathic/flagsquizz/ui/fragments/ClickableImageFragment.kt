@@ -3,10 +3,9 @@ package com.systemathic.flagsquizz.ui.fragments
 import android.view.View
 import com.systemathic.flagsquizz.R
 import com.systemathic.flagsquizz.base.BaseFragment
-import com.systemathic.flagsquizz.base.ClickableFragment
 import kotlinx.android.synthetic.main.fragment_clickable_image.*
 
-class ClickableImageFragment : ClickableFragment() {
+class ClickableImageFragment : BaseFragment() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : BaseFragment> newInstance(): T = ClickableImageFragment() as T

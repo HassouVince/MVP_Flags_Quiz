@@ -58,5 +58,4 @@ class FormPresenter (private var view: FormContract.View?)
         val selectedImageUri = data?.data
         return getPath(context, selectedImageUri)
     }
-
 }

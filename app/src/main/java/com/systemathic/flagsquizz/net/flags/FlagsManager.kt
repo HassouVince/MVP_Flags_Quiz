@@ -5,22 +5,30 @@ import com.systemathic.flagsquizz.net.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
 
-class FlagsPresenter(private var view: FlagsContract.View
-                     , private val pack : QuestionsPack)
-    : FlagsContract.Presenter
-    ,FlagIdentiferCallBack, TranslatorCallback{
+class FlagsManager(private val pack : QuestionsPack
+                   , private val callback: Callback)
+    : FlagIdentiferCallBack, TranslatorCallback{
 
     private var fail = false
     private var successOperation = false
     private var answers : List<String> = ArrayList()
 
-    override fun updatePackToPlay() {
-        view.onPreExecute()
+    private var errorMessage = ""
+
+    interface Callback{
+        fun onPreExecute()
+        fun onPostExecute(output : QuestionsPack)
+        fun onProgressUpdate(txt : String, value: Int?)
+        fun onRequestFail(error : String)
+    }
+
+    fun updatePackToPlay() {
+        callback.onPreExecute()
         load()
         translateCountriesName(this,"FR",getAnswersArray())
     }
 
-    override fun load(){
+    private fun load(){
         GlobalScope.launch(Dispatchers.IO) {
             val success : Deferred<Boolean> = async {
                 val durationMax = 300_000
@@ -38,18 +46,24 @@ class FlagsPresenter(private var view: FlagsContract.View
 
             if(success.await()) {
                 GlobalScope.launch(Main) {
-                    view.onPostExecute(pack)
+                    callback.onPostExecute(pack)
+                }
+            }else{
+                errorMessage = if(errorMessage.isNotEmpty()) errorMessage
+                else "An error occurred please retry"
+                GlobalScope.launch(Main) {
+                    callback.onRequestFail(errorMessage)
                 }
             }
         }
     }
 
-    override fun publishProgress(value : Int){
+    private fun publishProgress(value : Int){
         val valToDisplay = if(value>99 && value!=100){99}
             else{value}
         val txt = "$value%"
         GlobalScope.launch(Main) {
-            view.onProgressUpdate(txt, valToDisplay)
+            callback.onProgressUpdate(txt, valToDisplay)
         }
     }
 
@@ -58,14 +72,14 @@ class FlagsPresenter(private var view: FlagsContract.View
             answers = translatedText.split(" ")
             getCountries(this)
         }else{
+            this.errorMessage = "Error translated text is null at : FlagsManager -> onTranslationDone"
             fail = true
-            view.onRequestFail("Error translated text is null at : FlagsPresenter -> onTranslationDone")
         }
     }
 
     override fun onTranslationError(errorMessage: String) {
+        this.errorMessage = errorMessage
         fail = true
-        view.onRequestFail(errorMessage)
     }
 
     override fun onFlagIdentiferResult(countries: ArrayList<Country>) {
@@ -74,8 +88,8 @@ class FlagsPresenter(private var view: FlagsContract.View
     }
 
     override fun onFlagIdentiferError(errorMessage: String) {
+        this.errorMessage = errorMessage
         fail = true
-        view.onRequestFail(errorMessage)
     }
 
     /**

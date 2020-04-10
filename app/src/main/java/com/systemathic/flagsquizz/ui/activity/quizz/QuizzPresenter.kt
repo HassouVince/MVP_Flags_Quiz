@@ -9,8 +9,7 @@ import com.systemathic.flagsquizz.model.question_pack.QuestionsPack
 import com.systemathic.flagsquizz.model.User
 import com.systemathic.flagsquizz.model.question.QuestionManagerImp
 import com.systemathic.flagsquizz.model.question_pack.QuestionPackManagerImp
-import com.systemathic.flagsquizz.net.flags.FlagsContract
-import com.systemathic.flagsquizz.net.flags.FlagsPresenter
+import com.systemathic.flagsquizz.net.flags.FlagsManager
 import com.systemathic.flagsquizz.ui.fragments.DialFragment.Companion.TAG_BTN_DIAL_2
 import com.systemathic.flagsquizz.ui.fragments.DialFragment.Companion.TAG_BTN_DIAL_3
 import com.systemathic.flagsquizz.utils.*
@@ -19,7 +18,7 @@ import org.koin.standalone.get
 import org.koin.standalone.inject
 
 class QuizzPresenter(private var view: QuizzContract.View? = null)
-    : KoinComponent, QuizzContract.Presenter {
+    : KoinComponent, QuizzContract.Presenter, FlagsManager.Callback {
 
     private val userRepos : UserRepositoryImp by inject()
     private val packMgr : QuestionPackManagerImp by inject()
@@ -30,6 +29,12 @@ class QuizzPresenter(private var view: QuizzContract.View? = null)
     private lateinit var  currentPackQuestion : QuestionsPack
 
     private var points = 0
+
+    enum class AnswersType{
+        WrongAnswer,
+        GoodAnswer,
+        TimeElapsed
+    }
 
     override fun onViewCreated(intent: Intent?) {
         currentUser = getUserFromRepository(intent)
@@ -49,13 +54,13 @@ class QuizzPresenter(private var view: QuizzContract.View? = null)
     override fun save() = userRepos.saveUser(currentUser)
 
     override fun loadQuiz() {
-        FlagsPresenter(view!! as FlagsContract.View,currentPackQuestion).updatePackToPlay()
+        FlagsManager(currentPackQuestion,this).updatePackToPlay()
     }
 
-    override fun onQuizLoaded(pack: QuestionsPack) {
+ /*   override fun onQuizLoaded(pack: QuestionsPack) {
         save()
         this.view!!.startQuiz(pack)
-    }
+    } */
 
     override fun onVolumeButtonPressed() {
         currentUser.settingsVolumeOff = !currentUser.settingsVolumeOff
@@ -90,20 +95,16 @@ class QuizzPresenter(private var view: QuizzContract.View? = null)
         }
         currentUser.tempQuestionsChecked.add("$point${currentQuestion.id}")
         save()
-        this.view!!.onAnswerChecked(numAnswer,getAnswerString(numAnswer),getAnswerSoundRes(numAnswer))
+        this.view!!.onAnswerChecked(currentQuestion.answers[currentQuestion.indexGoodAnswer],
+            getCurrentTypeAnswer(numAnswer),getAnswerSoundRes(numAnswer))
     }
 
     override fun isGoodAnswer(numAnswer: Int) = numAnswer == currentQuestion.indexGoodAnswer
     private fun getAnswerSoundRes(numAnswer: Int) = if(isGoodAnswer(numAnswer)) R.raw.good_answer else R.raw.wrong_answer
-    private fun getAnswerString(numAnswer: Int) = if(isGoodAnswer(numAnswer)){
-        view!!.provideGoodAnswerMessage()
-    }else{
-        fun provideComplementMsg() = view!!.provideComplementMessage(currentQuestion.answers[currentQuestion.indexGoodAnswer])
-        if(numAnswer == -1){
-            "${view!!.provideTimeElapsedMessage()} ${provideComplementMsg()}"
-        } else{
-            "${view!!.provideWrongAnswerMessage()} ${provideComplementMsg()}"
-        }
+    private fun getCurrentTypeAnswer(numAnswer: Int) = when {
+        isGoodAnswer(numAnswer) -> AnswersType.GoodAnswer
+        numAnswer == -1 -> AnswersType.TimeElapsed
+        else -> AnswersType.WrongAnswer
     }
 
     override fun prepareQuestion() {
@@ -155,5 +156,15 @@ class QuizzPresenter(private var view: QuizzContract.View? = null)
         points == (MAX_QUESTIONS_IN_ONE_PACK) -> R.drawable.smiley_winner
         points < (MAX_QUESTIONS_IN_ONE_PACK / 2) ->  R.drawable.smiley_fail
         else -> R.drawable.smiley_nice
+    }
+
+    ///// ASYNC HTTP REQUEST
+
+    override fun onPreExecute() = view!!.onPreExecute()
+    override fun onProgressUpdate(txt: String, value: Int?) = view!!.onProgressUpdate(txt,value)
+    override fun onRequestFail(error: String) = view!!.onRequestFail(error)
+    override fun onPostExecute(output: QuestionsPack){
+        save()
+        view!!.onPostExecute(output)
     }
 }

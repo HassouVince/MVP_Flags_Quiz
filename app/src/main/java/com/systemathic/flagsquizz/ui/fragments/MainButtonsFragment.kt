@@ -4,10 +4,9 @@ import android.view.View
 import android.widget.Button
 import com.systemathic.flagsquizz.R
 import com.systemathic.flagsquizz.base.BaseFragment
-import com.systemathic.flagsquizz.base.ClickableFragment
 import kotlinx.android.synthetic.main.fragment_buttons.*
 
-class MainButtonsFragment : ClickableFragment() {
+class MainButtonsFragment : BaseFragment() {
 
     lateinit var buttons : List<Button>
 

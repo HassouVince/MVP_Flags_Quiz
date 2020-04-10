@@ -20,8 +20,7 @@ import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
 
-class FormActivity : AppCompatActivity(), FormContract.View, BaseFragment.OnViewClickListener {
-
+class FormActivity : AppCompatActivity(), FormContract.View, BaseFragment.Callback {
 
     private var presenter : FormContract.Presenter = get{ parametersOf(this) }
 
@@ -43,6 +42,8 @@ class FormActivity : AppCompatActivity(), FormContract.View, BaseFragment.OnView
         startSupportFragmentManager(this,formFragment as BaseFragment,R.id.layoutFragForm)
         startSupportFragmentManager(this,choiceFragment as BaseFragment,R.id.layoutFragChoicesForm)
     }
+
+    override fun onFragmentCreated() {}
 
     override fun onViewClick(v: View?) {
         when(v!!.id){

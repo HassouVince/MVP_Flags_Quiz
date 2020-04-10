@@ -8,14 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import java.lang.ClassCastException
 
-abstract class BaseFragment : Fragment(){
+abstract class BaseFragment : Fragment(), View.OnClickListener{
 
     abstract fun<T : BaseFragment> newInstance() : T
     abstract fun getLayoutRessource() : Int
     abstract fun initViews(view: View)
     abstract fun setViews(view: View)
 
-    interface OnViewClickListener {
+    interface Callback{
+        fun onFragmentCreated()
         fun onViewClick(v: View?)
     }
 
@@ -32,33 +33,14 @@ abstract class BaseFragment : Fragment(){
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        initOnViewCreatedCallback()
+        initCallback()
     }
 
-    interface CallbackOnFragmentCreated{
-        fun onFragmentCreated()
-    }
+    lateinit var callback : Callback
 
-    lateinit var callback : CallbackOnFragmentCreated
+    override fun onClick(v: View?) = callback.onViewClick(v)
 
-    private fun initOnViewCreatedCallback()= try {callback = activity as CallbackOnFragmentCreated
+    private fun initCallback()= try {callback = activity as Callback
     }catch (exception : ClassCastException){exception.printStackTrace()}
 }
 
-
-abstract class ClickableFragment : BaseFragment(), View.OnClickListener {
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        initBtnListener()
-    }
-
-    lateinit var callbackBtn : OnViewClickListener
-
-    override fun onClick(v: View?) = callbackBtn.onViewClick(v)
-
-    private fun initBtnListener()= try {callbackBtn = activity as OnViewClickListener
-    }catch (exception : ClassCastException){
-        throw ClassCastException("Interface ButtonClickListener must be implemented on activity (Exception : $exception )")
-    }
-}

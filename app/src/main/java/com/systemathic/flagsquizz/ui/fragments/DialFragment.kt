@@ -4,12 +4,11 @@ import android.util.Log
 import android.view.View
 import com.systemathic.flagsquizz.R
 import com.systemathic.flagsquizz.base.BaseFragment
-import com.systemathic.flagsquizz.base.ClickableFragment
 import kotlinx.android.synthetic.main.fragment_dial.*
 import kotlinx.android.synthetic.main.fragment_dial.view.*
 import java.lang.Exception
 
-class DialFragment : ClickableFragment(){
+class DialFragment : BaseFragment(){
 
 
 

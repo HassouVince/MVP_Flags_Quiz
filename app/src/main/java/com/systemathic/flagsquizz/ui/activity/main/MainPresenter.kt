@@ -49,22 +49,9 @@ class MainPresenter (private var view: MainContract.View?)
         checkBeforeQuizz()
     }
 
-    override fun onScoreButtonPressed(strings : List<String>) {
-        this.view!!.displayScore(getScoreToString(strings))
+    override fun onScoreButtonPressed() {
+        this.view!!.displayScore()
     }
-
-    private fun getScoreToString(strings : List<String>) : String{
-        if(strings.size != 4){
-            throw Exception("String size must be 4")
-        }
-
-        return currentUser.getAllScoresToString(
-            prefix = strings[0],
-            noScoreTxt = strings[1],
-            repeatPrefix = strings[2],
-            repeatSuffix = strings[3])
-    }
-
 
     override fun onParamsButtonPressed() =
         when {  currentUser.isRegistred() -> this.view!!.goToParams(currentUser)

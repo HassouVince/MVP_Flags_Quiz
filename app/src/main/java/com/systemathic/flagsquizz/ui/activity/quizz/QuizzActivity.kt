@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_quizz.*
 import android.os.CountDownTimer
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
@@ -14,7 +15,6 @@ import com.systemathic.flagsquizz.base.BasePresenter
 import com.systemathic.flagsquizz.extensions.toast
 import com.systemathic.flagsquizz.model.question.Question
 import com.systemathic.flagsquizz.model.question_pack.QuestionsPack
-import com.systemathic.flagsquizz.net.flags.FlagsContract
 import com.systemathic.flagsquizz.net.isConnectionOk
 import com.systemathic.flagsquizz.ui.activity.main.MainActivity
 import com.systemathic.flagsquizz.ui.alphaViewAnimation
@@ -31,9 +31,8 @@ import org.koin.core.parameter.parametersOf
 import java.lang.Exception
 
 
-class QuizzActivity : AppCompatActivity(), QuizzContract.View,FlagsContract.View,
-    BaseFragment.OnViewClickListener, BaseFragment.CallbackOnFragmentCreated
-    ,PresentationFragment.ImageLoadCallback {
+class QuizzActivity : AppCompatActivity(), QuizzContract.View,
+     BaseFragment.Callback,PresentationFragment.ImageLoadCallback {
 
     private var presenter: QuizzContract.Presenter = get{ parametersOf(this) }
 
@@ -149,23 +148,29 @@ class QuizzActivity : AppCompatActivity(), QuizzContract.View,FlagsContract.View
         presenter.onQuitSelected()
     }
 
-    override fun onAnswerChecked(numAnswer: Int, msg : String, soundRes : Int) {
+    override fun onAnswerChecked(goodAnswer: String, answerType: QuizzPresenter.AnswersType, soundRes : Int) {
         stopChrono()
         initChronoProgress()
         setViewsVisibility(View.GONE,progress_chrono_quizz)
         buttonsFragment.enableOrDisableAllButtons(false)
         buttonsFragment.setButtonBackGround(R.drawable.rounded_button_good_answer,presenter.getQuestion().indexGoodAnswer)
-        presentationFragment.setText(msg)
+        presentationFragment.setText(getReponseString(goodAnswer,answerType))
         playSound(soundRes)
-        freezeAfterAnswer(numAnswer)
+        freezeAfterAnswer(answerType)
     }
 
-    private fun freezeAfterAnswer(numAnswer: Int){
-        fun getDurationScreenFreeze() = if(presenter.isGoodAnswer(numAnswer)){ DURATION_GOOD_ANSWER_DISPLAYING }
+    private fun getReponseString(goodAnswer: String, answerType: QuizzPresenter.AnswersType) =
+        when (answerType) {
+            QuizzPresenter.AnswersType.GoodAnswer -> getString(R.string.good_answer)
+            QuizzPresenter.AnswersType.TimeElapsed -> "${getString(R.string.time_elapsed)} ${getString(R.string.good_answer_was)} : $goodAnswer "
+            else -> "${getString(R.string.wrong)} ${getString(R.string.good_answer_was)} : $goodAnswer "
+        }
+
+    private fun freezeAfterAnswer(answerType: QuizzPresenter.AnswersType){
+        val duration = if(answerType == QuizzPresenter.AnswersType.GoodAnswer){ DURATION_GOOD_ANSWER_DISPLAYING }
         else{ DURATION_WRONG_ANSWER_DISPLAYING }
-        val timer2 = object: CountDownTimer(getDurationScreenFreeze(),500) { override fun onTick(millisUntilFinished: Long) {}
-            override fun onFinish() {presenter.prepareQuestion()} }
-        timer2.start()
+        val runnable = Runnable {presenter.prepareQuestion()}
+        Handler().postDelayed(runnable,duration)
     }
 
     override fun onQuizFinished(points: Int, isAllPlayed : Boolean, soundRes : Int,
@@ -216,11 +221,6 @@ class QuizzActivity : AppCompatActivity(), QuizzContract.View,FlagsContract.View
     override fun hideProgress() { progressQuizz.visibility = View.GONE }
     private fun initChronoProgress(){(progress_chrono_quizz as ProgressBar).progress = 0}
     private fun updateChronoProgress() {(progress_chrono_quizz as ProgressBar).progress+=1}
-    override fun provideGoodAnswerMessage(): String = getString(R.string.good_answer)
-    override fun provideWrongAnswerMessage(): String = getString(R.string.wrong)
-    override fun provideTimeElapsedMessage(): String = getString(R.string.time_elapsed)
-    override fun provideComplementMessage(goodAnswer : String): String =
-       " ${getString(R.string.good_answer_was)} : $goodAnswer "
     override fun displayUserScore() = userFragment.setText("${presenter.getUser().score} pts")
     override fun setVolumeImage(pVolumeOff: Boolean)= if(pVolumeOff) clickableImageFragment.setImage(R.drawable.util_volume)
     else clickableImageFragment.setImage(R.drawable.util_volume_mute)
@@ -279,7 +279,7 @@ class QuizzActivity : AppCompatActivity(), QuizzContract.View,FlagsContract.View
         setViewsVisibility(View.VISIBLE,layoutFragQuizButtons,layoutFragQuizPresentation,
             layoutFragQuizUser,layoutFragQuizVolume)
         loadingFragment.stopLoadingAnimation()
-        presenter.onQuizLoaded(output)
+        startQuiz(output)
     }
 
     override fun onRequestFail(error: String) {

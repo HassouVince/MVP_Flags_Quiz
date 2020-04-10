@@ -27,8 +27,8 @@ import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
-class MainActivity : AppCompatActivity(), MainContract.View, BaseFragment.OnViewClickListener
-    , BottomNavigationView.OnNavigationItemSelectedListener, BaseFragment.CallbackOnFragmentCreated {
+class MainActivity : AppCompatActivity(), MainContract.View
+    , BottomNavigationView.OnNavigationItemSelectedListener, BaseFragment.Callback {
 
     private var presenter: MainContract.Presenter = get{ parametersOf(this) }
 
@@ -64,9 +64,7 @@ class MainActivity : AppCompatActivity(), MainContract.View, BaseFragment.OnView
     override fun onViewClick(v: View?) {
         when (v!!){
             button1 -> presenter.onQuizzButtonPressed()
-            button2 -> presenter.onScoreButtonPressed(
-                listOf(getString(R.string.total_pts), getString(R.string.no_score_available),
-                    getString(R.string.quiz),getString(R.string.points)))
+            button2 -> presenter.onScoreButtonPressed()
             btnDial1 -> layoutFragDialMain.visibility = View.GONE
             btnDial2 -> presenter.onReset()
         }
@@ -86,10 +84,15 @@ class MainActivity : AppCompatActivity(), MainContract.View, BaseFragment.OnView
         startSupportFragmentManager(this,buttonsFragment as BaseFragment,R.id.layoutFragMainButtons)
     }
 
-    override fun displayScore(txt : String) {
+    override fun displayScore() {
         layoutFragDialMain.visibility = View.VISIBLE
-        dialFragment.display(
-            "${getString(R.string.score)} : ", txt, txtNegative =  getString(R.string.return_))
+        val txt = presenter.getUser().getAllScoresToString(
+            prefix = getString(R.string.total_pts),
+            noScoreTxt = getString(R.string.no_score_available),
+            repeatPrefix = getString(R.string.quiz),
+            repeatSuffix = getString(R.string.points))
+
+        dialFragment.display("${getString(R.string.score)} : ", txt, txtNegative =  getString(R.string.return_))
     }
 
     override fun showProgress() {

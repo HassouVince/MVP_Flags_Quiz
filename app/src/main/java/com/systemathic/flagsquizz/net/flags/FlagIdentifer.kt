@@ -1,4 +1,4 @@
-package com.systemathic.flagsquizz.net
+package com.systemathic.flagsquizz.net.flags
 
 import com.systemathic.flagsquizz.utils.readTextWithUrl
 import kotlinx.coroutines.*
@@ -40,7 +40,10 @@ fun getCountries(fiCallBack: FlagIdentiferCallBack){
                 val countries = ArrayList<Country>()
                 val jsonObject = JSONObject(txt!!.await())
                 for(indice in jsonObject.keys()){
-                    val country = Country(jsonObject.getString(indice),indice)
+                    val country = Country(
+                        jsonObject.getString(indice),
+                        indice
+                    )
                     countries.add(country)
                 }
                 fiCallBack.onFlagIdentiferResult(countries)
